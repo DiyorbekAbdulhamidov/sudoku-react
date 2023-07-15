@@ -1,26 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import './app.scss';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const sudokuGrid: (number | null)[][] = [
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+  ];
+
+  const [selectedCell, setSelectedCell] = useState<[number, number]>([-1, -1]);
+
+  const renderGrid = () => {
+    return sudokuGrid.map((row, rowIndex) => (
+      <div key={rowIndex} className="row">
+        {row.map((cell, cellIndex) => {
+          const isActive =
+            cellIndex === selectedCell[1] || rowIndex === selectedCell[0] ||
+            (Math.floor(cellIndex / 3) === Math.floor(selectedCell[1] / 3) &&
+              Math.floor(rowIndex / 3) === Math.floor(selectedCell[0] / 3));
+          return (
+            <div
+              key={cellIndex}
+              className={`cell ${isActive ? 'active' : ''}`}
+              onClick={() => handleCellClick(rowIndex, cellIndex)}
+            >
+              {cell}
+            </div>
+          );
+        })}
+      </div>
+    ));
+  };
+
+  const handleCellClick = (rowIndex: number, cellIndex: number) => {
+    setSelectedCell([rowIndex, cellIndex]);
+  };
+
+  return <div className="App">{renderGrid()}</div>;
 }
 
 export default App;
