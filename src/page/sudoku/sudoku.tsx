@@ -2,7 +2,6 @@ import { FunctionComponent } from "react";
 import { Btns, Gamepad } from "../../components";
 import "./sudoku.scss";
 
-
 interface SudokuProps {
 
 }
